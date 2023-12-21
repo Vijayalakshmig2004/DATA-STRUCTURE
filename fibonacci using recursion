@@ -1,0 +1,26 @@
+#include<stdio.h>
+int fibo(int n)
+{
+  if(n==0)
+    return 0;
+  else
+    if(n==1)
+      return 1;
+    else
+      return (fibo(n-1)+fibo(n-2));
+}
+int main()
+{
+  printf("Fibonacci with recursion \n ");
+  printf("VIJAYALAKSHMI G: 192321080\n");
+  int n,fib,i;
+  printf("Enter the Number of the terms : \n");
+  scanf("%d",&n);
+  printf("Fibonacci series are : \n");
+  for(i=0;i<n;i++)
+  {
+    fib=fibo(i);
+    printf(" %d ",fib);
+  }
+  return 0;
+}
