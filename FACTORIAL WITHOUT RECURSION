@@ -1,0 +1,15 @@
+#include<stdio.h>
+int main()
+{
+   printf("factorial without recursion\n");
+   printf("VIJAYALAKSHMI:192321080\n");
+   int num;
+   printf("Enter The Number : \n");
+   scanf("%d",&num);
+   int f=1,i;
+   for(i=1;i<=num;i++)
+   {
+      f=f*i;
+   }
+   printf("factorial of %d is %d : \n",num,f);
+}
