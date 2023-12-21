@@ -1,0 +1,17 @@
+#include<stdio.h>
+int main()
+{
+  printf("fibonacci without recursion\n");
+  printf("VIJAYALSKHMI G :192321080\n");
+  int a=0,b=1,c,i,num;
+  printf("Enter the terms : \n");
+  scanf("%d",&num);
+  printf("series are : \n");
+  for(i=0;i<=num;i++)
+  {
+    printf(" %d ",a);
+    c=a+b;
+    a=b;
+    b=c;
+  }
+}
