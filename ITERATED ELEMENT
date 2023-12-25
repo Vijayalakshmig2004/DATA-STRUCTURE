@@ -1,0 +1,16 @@
+#include<stdio.h>
+int main()
+{
+  printf("Given array elements display 5th iterated element\n");
+  printf("VIJAYALAKSHMI G, 192321080\n");
+  int n=6,i;
+  int arr[]={1,2,3,4,5,6};
+  int search =6;
+  printf("5th iterated element found : \n");
+  for(i=0;i<n;i++)
+  {
+    if(search==arr[i])
+       printf("%d ",arr[i]);
+  }
+}
+
