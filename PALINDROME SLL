@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+struct Node
+{
+    int data;
+    struct Node* next;
+}*head,*tail,*n;
+
+void insert_begin(int num)
+{
+    n=(struct Node*)malloc(sizeof(struct Node));
+    n->data=num;
+    n->next=NULL;
+    if(head==NULL)
+    {
+        head=n;
+        tail=n;
+    }
+    else
+    {
+        n->next=head;
+        head=n;
+    }
+}
+
+void display()
+{
+    struct Node* t = head;
+    printf("Linked List: ");
+    while (t != NULL)
+    {
+        printf("%d -> ", t->data);
+        t = t->next;
+    }
+    printf("NULL\n");
+}
+
+struct Node *reverseLinkedList(struct Node* new)
+{
+    struct Node* p = NULL;
+    struct Node* c = new;
+    struct Node* next = NULL;
+
+    while (c != NULL)
+    {
+        next = c->next;
+        c->next = p;
+        p = c;
+        c = next;
+    }
+
+    return p;
+}
+
+
+struct Node * findMiddle(struct Node * node )
+{
+    struct Node* slowPtr = node;
+    struct Node* fastPtr = node;
+
+    while (fastPtr != NULL && fastPtr->next != NULL) {
+        slowPtr = slowPtr->next;
+        fastPtr = fastPtr->next->next;
+    }
+
+    return slowPtr;
+}
+
+
+
+bool isPalindrome()
+{
+    if (head == NULL || head->next == NULL)
+    {
+        return true;
+    }
+
+    struct Node* middle = findMiddle(head);
+    struct Node* second = reverseLinkedList(middle);
+
+    struct Node* first = head;
+    while (second!= NULL)
+    {
+        if (first->data != second->data)
+        {
+            return false;
+        }
+        first = first->next;
+        second = second->next;
+    }
+
+    return true;
+}
+
+int main()
+{
+    printf("check palindrom or not \n");
+    printf("vijayalakshmI G  ,192321080\n");
+    insert_begin(1);
+    insert_begin(2);
+    insert_begin(3);
+    insert_begin(2);
+    insert_begin(1);
+
+    display();
+
+    if (isPalindrome())
+    {
+        printf("The linked list is a palindrome.\n");
+    } else
+    {
+        printf("The linked list is not a palindrome.\n");
+    }
+
+    return 0;
+}
+
+
