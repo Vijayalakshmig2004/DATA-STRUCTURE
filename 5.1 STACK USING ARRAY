@@ -1,0 +1,110 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#define MAX_SIZE 20
+
+
+int stack[MAX_SIZE];
+int top=-1;
+
+
+bool isfull()
+{
+    return top==MAX_SIZE-1;
+}
+
+
+bool isempty()
+{
+    return top==-1;
+}
+
+
+
+void push(int data)
+{
+    if(isfull())
+    {
+        printf("STACK IS OVERFLOW \n");
+        return;
+    }
+    stack[++top]=data;
+    printf("%d is pushed in the stack\n",data);
+}
+
+
+
+void pop()
+{
+    if(isempty())
+    {
+        printf("STACK IS UNDERFLOW :\n");
+        return;
+    }
+    int pop=stack[top--];
+    printf("%d is pop from the stack : \n",pop);
+}
+
+
+void display()
+{
+    if(isempty())
+    {
+        printf("STACK IS EMPTY\n");
+        return;
+    }
+    printf("ELEMENTS IN THE STACK ARE :\n");
+    for(int i=0;i<=top;i++)
+    {
+        printf("%d ",stack[i]);
+    }
+    printf("\n");
+}
+void peek()
+{
+    if(isempty())
+    {
+        printf("STACK IS EMPTY\n");
+        return;
+    }
+    printf("PEEK ELEMENT IS : %d \n",stack[top]);
+}
+
+
+
+int main()
+{
+    printf("IMPLEMENT OF STACK USING ARRAY \n");
+    printf("VIJAYALAKSHMI G,192321080\n");
+    int choice,data;
+
+    while(1)
+    {
+        printf("---------------------------\n");
+        printf("1.push\n");
+        printf("2.pop\n");
+        printf("3.display\n");
+        printf("4.peek\n");
+        printf("ENTER THE CHOICE : ");
+        scanf("%d",&choice);
+        printf("----------------------------\n");
+
+        switch(choice)
+        {
+            case 1:
+                printf("ENTER THE ELEMENT TO PUSH : ");
+                scanf("%d",&data);
+                push(data);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                peek();
+                break;
+        }
+    }
+}
