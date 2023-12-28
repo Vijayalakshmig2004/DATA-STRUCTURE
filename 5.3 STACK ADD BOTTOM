@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+struct Node
+{
+    int data;
+    struct Node* next;
+}*top1,*top2,*n;
+
+int isEmpty1()
+{
+    return top1 == NULL;
+}
+
+
+int isEmpty2()
+{
+    return top2 == NULL;
+}
+
+
+void push1(int data)
+{
+    if (top1 == NULL)
+    {
+        top1 = (struct Node*)malloc(sizeof(struct Node));
+        top1->data = data;
+        top1->next = NULL;
+    }
+    else
+    {
+        n = (struct Node*)malloc(sizeof(struct Node));
+        n->data = data;
+        n->next = top1;
+        top1 = n;
+    }
+    printf("%d pushed to Stack 1\n", data);
+}
+
+
+
+void push2(int data)
+{
+    if (top2 == NULL)
+    {
+        top2 = (struct Node*)malloc(sizeof(struct Node));
+        top2->data = data;
+        top2->next = NULL;
+    }
+    else
+    {
+        n = (struct Node*)malloc(sizeof(struct Node));
+        n->data = data;
+        n->next = top2;
+        top2 = n;
+    }
+    printf("%d pushed to Stack 2\n", data);
+}
+
+
+
+void pop1()
+{
+    if (isEmpty1())
+    {
+        printf("Stack 1 is empty, cannot pop\n");
+        return;
+    }
+    struct Node* t = top1;
+    top1 = top1->next;
+    printf("%d popped from Stack 1\n", t->data);
+    free(t);
+}
+
+
+void pop2()
+{
+    if (isEmpty2())
+    {
+        printf("Stack 2 is empty, cannot pop\n");
+        return;
+    }
+    struct Node* temp = top2;
+    top2 = top2->next;
+    printf("%d popped from Stack 2\n", temp->data);
+    free(temp);
+}
+
+
+void printTopBottom()
+{
+    if (isEmpty1() || isEmpty2())
+    {
+        printf("One or both stacks are empty\n");
+        return;
+    }
+    printf("Bottom element of Stack 1: %d\n", top1->data);
+    printf("Top element of Stack 2: %d\n", top2->data);
+}
+
+
+int main()
+{
+    printf("Consider 2 stacks, add bottom most element and top most element print the value\n");
+    printf("VIJAYALAKSHMI G, 192321080\n");
+    printf("------------------------------------------\n");
+    push1(10);
+    push1(20);
+    push1(30);
+
+    push2(40);
+    push2(50);
+    push2(60);
+
+    printTopBottom();
+
+    return 0;
+}
