@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+struct Node
+{
+    int data;
+    struct Node* next;
+}*top,*n;
+
+
+
+int isEmpty()
+{
+    return top == NULL;
+}
+
+
+void push(int data)
+{
+    if (top == NULL)
+    {
+        top = (struct Node*)malloc(sizeof(struct Node));
+        top->data = data;
+        top->next = NULL;
+    }
+    else
+    {
+        n = (struct Node*)malloc(sizeof(struct Node));
+        n->data = data;
+        n->next = top;
+        top = n;
+    }
+    printf("%d pushed to stack\n", data);
+}
+
+
+void pop()
+{
+    if (isEmpty())
+    {
+        printf("Stack is empty, cannot pop\n");
+        return;
+    }
+    struct Node* t = top;
+    top = top->next;
+    printf("%d popped from stack\n", t->data);
+    free(t);
+}
+
+
+
+void display()
+{
+    if (isEmpty())
+    {
+        printf("Stack is empty\n");
+        return;
+    }
+    struct Node *t=top;
+    printf("Stack elements: ");
+    while (t != NULL)
+    {
+        printf("%d ", t->data);
+        t = t->next;
+    }
+    printf("\n");
+}
+
+
+
+void peek()
+{
+    if (isEmpty())
+    {
+        printf("Stack is empty, no elements to peek\n");
+        return;
+    }
+    printf("Top element of the stack: %d\n", top->data);
+}
+
+int main()
+{
+    int choice, data;
+    printf("VIJAYALAKSHMI.G,192321080");
+    do {
+        printf("\n1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Display\n");
+        printf("4. Peek\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter data to push: ");
+                scanf("%d", &data);
+                push(data);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                peek();
+                break;
+            case 5:
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Invalid choice! Please enter a valid choice.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}
