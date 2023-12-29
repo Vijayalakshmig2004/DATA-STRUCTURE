@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef struct {
+    char items[100];
+    int top;          
+} Stack;
+
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+void push(Stack *stack, char item) {
+    stack->items[++stack->top] = item;
+}
+
+char pop(Stack *stack) {
+    return stack->items[stack->top--];
+}
+
+bool areSymbolsBalanced(char *str) {
+    Stack stack;
+    initialize(&stack);
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '(' || str[i] == '{' || str[i] == '[') {
+            push(&stack, str[i]);
+        } else if (str[i] == ')' || str[i] == '}' || str[i] == ']') {
+            if (stack.top == -1) {
+                return false;
+            }
+            char popped = pop(&stack);
+            if ((str[i] == ')' && popped != '(') ||
+                (str[i] == '}' && popped != '{') ||
+                (str[i] == ']' && popped != '[')) {
+                return false;
+            }
+        }
+    }
+    return stack.top == -1;
+}
+
+int main()
+{
+	printf("VIJAYALAKSHMI.G,192321080\n");
+   char str[] = "([{}]";
+    if (areSymbolsBalanced(str)) {
+        printf("The symbols are balanced.\n");
+    } else {
+        printf("The symbols are not balanced.\n");
+    }
+
+    return 0;
+}
