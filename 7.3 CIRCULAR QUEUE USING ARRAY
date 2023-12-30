@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_SIZE 5
+struct CircularQueue 
+{
+    int front, rear;
+    int size;
+    int capacity;
+    int* array;
+};
+struct CircularQueue* createCircularQueue(int capacity) {
+    struct CircularQueue* queue = (struct CircularQueue*)malloc(sizeof(struct CircularQueue));
+    queue->capacity = capacity;
+    queue->front = queue->rear = -1;
+    queue->size = 0;
+    queue->array = (int*)malloc(queue->capacity * sizeof(int));
+    return queue;
+}
+int isEmpty(struct CircularQueue* queue) {
+    return (queue->size == 0);
+}
+int isFull(struct CircularQueue* queue) {
+    return (queue->size == queue->capacity);
+}
+void enqueue(struct CircularQueue* queue, int item) {
+    if (isFull(queue)) {
+        printf("Queue is full\n");
+        return;
+    }
+
+    if (isEmpty(queue)) 
+	{
+    	
+        queue->front = queue->rear = 0;
+    } 
+	else 
+	{
+        queue->rear = (queue->rear + 1) % queue->capacity;
+    }
+
+    queue->array[queue->rear] = item;
+    queue->size++;
+    printf("Enqueued: %d\n", item);
+}
+int dequeue(struct CircularQueue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty. Cannot dequeue.\n");
+        return -1; 
+    }
+
+    int item = queue->array[queue->front];
+
+    if (queue->front == queue->rear) {
+        queue->front = queue->rear = -1;
+    } else {
+        queue->front = (queue->front + 1) % queue->capacity;
+    }
+
+    queue->size--;
+    return item;
+}
+int front(struct CircularQueue* queue)
+ {
+    if (isEmpty(queue)) 
+	{
+        printf("Queue is empty.\n");
+        return -1;
+    }
+    return queue->array[queue->front];
+}
+int rear(struct CircularQueue* queue) 
+{
+    if (isEmpty(queue)) 
+	{
+        printf("Queue is empty.\n");
+        return -1;
+    }
+    return queue->array[queue->rear];
+}
+void display(struct CircularQueue* queue) 
+{
+    int i;
+    if (isEmpty(queue)) 
+	{
+        printf("Queue is empty.\n");
+        return;
+    }
+
+    printf("Queue elements: ");
+    for (i = queue->front; i != queue->rear; i = (i + 1) % queue->capacity)
+        printf("%d ", queue->array[i]);
+    
+    printf("%d ", queue->array[i]);
+    printf("\n");
+}
+int main() 
+{
+	printf("IMPLEMENTATION OF CIRCULAR QUEUE\n");
+    printf("VIJAYALAKSHMI G,192321080\n");
+    struct CircularQueue* queue = createCircularQueue(MAX_SIZE);
+    enqueue(queue, 1);
+    enqueue(queue, 2);
+    enqueue(queue, 3);
+    enqueue(queue, 4);
+    display(queue);
+    printf("Front element: %d\n", front(queue));
+    printf("Rear element: %d\n", rear(queue));
+    dequeue(queue);
+    display(queue);
+    printf("Front element: %d\n", front(queue));
+    printf("Rear element: %d\n", rear(queue));
+    return 0;
+}
