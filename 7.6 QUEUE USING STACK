@@ -68,8 +68,8 @@ int pop(struct Queue* q1, struct Queue* q2) {
 
 int main()
 {
+    printf("vijayalakshmi g,192321080\n");
     printf("IMPLEMENT STACK USING 2 QUEUE\n");
-    printf("TANUJA P , 192321052\n");
     struct Queue *q1 = createQueue(100);
     struct Queue *q2 = createQueue(100);
 
