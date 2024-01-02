@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node
+{
+    int data;
+    struct Node* next;
+};
+
+void insertAtBeginning(struct Node** headRef, int newData)
+{
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = newData;
+    newNode->next = *headRef;
+    *headRef = newNode;
+}
+
+void displayLinkedList(struct Node* head)
+{
+    struct Node* current = head;
+    printf("Linked List: ");
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+int getLength(struct Node* head)
+{
+    int length = 0;
+    struct Node* current = head;
+    while (current != NULL)
+    {
+        length++;
+        current = current->next;
+    }
+    return length;
+}
+
+struct Node* findIntersection(struct Node* head1, struct Node* head2)
+{
+    int len1 = getLength(head1);
+    int len2 = getLength(head2);
+
+    struct Node* current1 = head1;
+    struct Node* current2 = head2;
+
+    int diff = abs(len1 - len2);
+
+    if (len1 > len2)
+    {
+        for (int i = 0; i < diff; i++)
+        {
+            current1 = current1->next;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < diff; i++)
+        {
+            current2 = current2->next;
+        }
+    }
+
+
+    while (current1 != NULL && current2 != NULL)
+    {
+        if (current1 == current2)
+        {
+            return current1;
+        }
+        current1 = current1->next;
+        current2 = current2->next;
+    }
+
+    return NULL;
+}
+
+int main()
+{
+    printf("VIJAYALAKSHMI G, 192321080\n");
+    printf("intersection of two linked list \n");
+    struct Node* head1 = NULL;
+    insertAtBeginning(&head1, 1);
+    insertAtBeginning(&head1, 2);
+    insertAtBeginning(&head1, 3);
+    insertAtBeginning(&head1, 4);
+    insertAtBeginning(&head1, 5);
+    struct Node* head2 = NULL;
+    insertAtBeginning(&head2, 9);
+    insertAtBeginning(&head2, 8);
+    struct Node* commonNode = head1->next->next;
+    struct Node* current = head2;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = commonNode;
+    displayLinkedList(head1);
+    displayLinkedList(head2);
+    struct Node* intersection = findIntersection(head1, head2);
+
+    if (intersection != NULL)
+    {
+        printf("Intersection point data: %d\n", intersection->data);
+    }
+    else
+    {
+        printf("No intersection point found\n");
+    }
+
+    return 0;
+}
