@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Queue {
+    int front, rear, size;
+    unsigned capacity;
+    int* array;
+};
+
+struct Queue* createQueue(unsigned capacity) {
+    struct Queue* queue = (struct Queue*)malloc(sizeof(struct Queue));
+    queue->capacity = capacity;
+    queue->front = queue->size = 0;
+    queue->rear = capacity - 1;
+    queue->array = (int*)malloc(queue->capacity * sizeof(int));
+    return queue;
+}
+
+int isFull(struct Queue* queue) {
+    return (queue->size == queue->capacity);
+}
+
+int isEmpty(struct Queue* queue) {
+    return (queue->size == 0);
+}
+
+void enqueue(struct Queue* queue, int item) {
+    if (isFull(queue))
+        return;
+    queue->rear = (queue->rear + 1) % queue->capacity;
+    queue->array[queue->rear] = item;
+    queue->size = queue->size + 1;
+}
+
+int dequeue(struct Queue* queue) {
+    if (isEmpty(queue))
+        return -1;
+    int item = queue->array[queue->front];
+    queue->front = (queue->front + 1) % queue->capacity;
+    queue->size = queue->size - 1;
+    return item;
+}
+
+void push(struct Queue* q1, struct Queue* q2, int item) {
+    if (isEmpty(q1)) {
+        enqueue(q1, item);
+        while (!isEmpty(q2)) {
+            enqueue(q1, dequeue(q2));
+        }
+    } else {
+        enqueue(q2, item);
+        while (!isEmpty(q1)) {
+            enqueue(q2, dequeue(q1));
+        }
+    }
+}
+
+int pop(struct Queue* q1, struct Queue* q2) {
+    if (isEmpty(q1) && isEmpty(q2)) {
+        return -1;
+    }
+    if (!isEmpty(q1)) {
+        return dequeue(q1);
+    } else {
+        return dequeue(q2);
+    }
+}
+
+int main()
+{
+    printf("IMPLEMENT STACK USING 2 QUEUE\n");
+    printf("TANUJA P , 192321052\n");
+    struct Queue *q1 = createQueue(100);
+    struct Queue *q2 = createQueue(100);
+
+    push(q1, q2, 1);
+    push(q1, q2, 2);
+    push(q1, q2, 3);
+
+    printf("Popped element: %d\n", pop(q1, q2));
+    printf("Popped element: %d\n", pop(q1, q2));
+
+    push(q1, q2, 4);
+    printf("Popped element: %d\n", pop(q1, q2));
+
+    return 0;
+}
