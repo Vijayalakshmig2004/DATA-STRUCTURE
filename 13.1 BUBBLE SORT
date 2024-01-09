@@ -1,0 +1,33 @@
+#include<stdio.h>
+#include<stdlib.h>
+void main()
+{
+    printf("BUBBLE SORT \n");
+    printf("vijayalakshmi g,192321080\n");
+    printf("\n");
+    int n,temp;
+    printf("array size :");
+    scanf("%d",&n);
+    printf("\n");
+    int arr[n];
+    printf("enter %d elements : \n",n);
+    for(int i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+    printf("\n");
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+            if(arr[i] > arr[j])
+            {
+                temp = arr[i];
+                arr[i]=arr[j];
+                arr[j]=temp;
+            }
+        }
+    }
+    printf("BUBBLE SORT ARRAY : \n");
+    for(int i=0;i<n;i++)
+        printf("%d\t",arr[i]);
+    printf("\n");
+}
