@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+struct Node
+{
+    int data;
+    struct Node* next;
+};
+struct Hash
+{
+    struct Node* table[SIZE];
+};
+struct Node* createNode(int value)
+{
+    struct Node* n = (struct Node*)malloc(sizeof(struct Node));
+    n->data = value;
+    n->next = NULL;
+    return n;
+}
+void initializeHashTable(struct Hash* ht)
+{
+    for (int i = 0; i < SIZE; i++)
+    {
+        ht->table[i] = NULL;
+    }
+}
+void linearProbeInsert(struct Hash* ht, int value)
+{
+    int i = value % SIZE;
+    if (ht->table[i] == NULL)
+    {
+        ht->table[i] = createNode(value);
+    }
+    else
+    {
+        int j = 1;
+        while (ht->table[(i + j) % SIZE] != NULL)
+        {
+            j++;
+        }
+        ht->table[(i + j) % SIZE] = createNode(value);
+    }
+}
+void quadraticProbeInsert(struct Hash* ht, int value)
+{
+    int i = value % SIZE;
+    if (ht->table[i] == NULL) {
+        ht->table[i] = createNode(value);
+    } else {
+        int j = 1;
+        while (ht->table[(i + j * j) % SIZE] != NULL)
+        {
+            j++;
+        }
+        ht->table[(i + j * j) % SIZE] = createNode(value);
+    }
+}
+void chainingInsert(struct Hash* ht, int value)
+{
+    int i = value % SIZE;
+    if (ht->table[i] == NULL)
+    {
+        ht->table[i] = createNode(value);
+    }
+    else
+    {
+        struct Node* newNode = createNode(value);
+        newNode->next = ht->table[i];
+        ht->table[i] = newNode;
+    }
+}
+void displayHashTable(struct Hash* ht)
+{
+    printf("Hash Table:\n");
+    for (int i = 0; i < SIZE; i++)
+    {
+        printf("%d -> ", i);
+        struct Node* temp = ht->table[i];
+        while (temp != NULL)
+        {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+int main()
+{
+    printf("COLLISION HASHING\n");
+    printf("VIJAYALAKSHMI G,192321080\n");
+    printf("-------------------------------\n");
+    struct Hash linearProbingHT, quadraticProbingHT, chainingHT;
+    initializeHashTable(&linearProbingHT);
+    initializeHashTable(&quadraticProbingHT);
+    initializeHashTable(&chainingHT);
+    int values[] = {25, 42, 7, 16, 35, 11, 32, 19, 60, 28}; // Values to insert
+    printf("Inserting using Linear Probing:\n");
+    for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+        linearProbeInsert(&linearProbingHT, values[i]);
+    }
+    displayHashTable(&linearProbingHT);
+
+    printf("\nInserting using Quadratic Probing:\n");
+    for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+        quadraticProbeInsert(&quadraticProbingHT, values[i]);
+    }
+    displayHashTable(&quadraticProbingHT);
+
+    printf("\nInserting using Chaining with Linked Lists:\n");
+    for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+        chainingInsert(&chainingHT, values[i]);
+    }
+    displayHashTable(&chainingHT);
+
+    return 0;
+}
