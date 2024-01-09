@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define ALPHABET_SIZE 26
+
+// Structure for Trie Node
+struct TrieNode {
+    struct TrieNode* children[ALPHABET_SIZE];
+    bool isEndOfWord;
+};
+
+// Function to create a new Trie node
+struct TrieNode* createNode() {
+    struct TrieNode* newNode = (struct TrieNode*)malloc(sizeof(struct TrieNode));
+    newNode->isEndOfWord = false;
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        newNode->children[i] = NULL;
+    }
+    return newNode;
+}
+
+// Function to insert a word into the Trie
+void insert(struct TrieNode* root, const char* word) {
+    struct TrieNode* current = root;
+    for (int i = 0; word[i] != '\0'; i++) {
+        int index = word[i] - 'a';
+        if (current->children[index] == NULL) {
+            current->children[index] = createNode();
+        }
+        current = current->children[index];
+    }
+    current->isEndOfWord = true;
+}
+
+// Function to search for a word in the Trie
+bool search(struct TrieNode* root, const char* word) {
+    struct TrieNode* current = root;
+    for (int i = 0; word[i] != '\0'; i++) {
+        int index = word[i] - 'a';
+        if (current->children[index] == NULL) {
+            return false;
+        }
+        current = current->children[index];
+    }
+    return (current != NULL && current->isEndOfWord);
+}
+
+// Driver code
+int main()
+{
+    printf("TRIE STRING\n");
+    printf("VIJAYALAKSHMI G,192321080\n");
+    struct TrieNode* root = createNode();
+
+    // Words to be inserted into the Trie
+    const char* words[] = {"hello", "world", "programming", "trie", "tree"};
+
+    // Inserting words into the Trie
+    for (int i = 0; i < sizeof(words) / sizeof(words[0]); i++) {
+        insert(root, words[i]);
+    }
+
+    // Searching for words in the Trie
+    printf("Searching for words in the Trie:\n");
+    const char* searchWords[] = {"hello", "world", "code", "programming", "algorithm"};
+    for (int i = 0; i < sizeof(searchWords) / sizeof(searchWords[0]); i++) {
+        if (search(root, searchWords[i])) {
+            printf("'%s' is found in the Trie.\n", searchWords[i]);
+        } else {
+            printf("'%s' is not found in the Trie.\n", searchWords[i]);
+        }
+    }
+
+    return 0;
+}
