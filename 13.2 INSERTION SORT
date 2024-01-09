@@ -1,0 +1,31 @@
+#include<stdio.h>
+#include<stdlib.h>
+void main()
+{
+    printf("INSERTION SORT\n");
+    printf("VIJAYALAKSHMI G,1923221080\n");
+    int n,key,j;
+    printf("array size : ");
+    scanf("%d",&n);
+    printf("\n");
+    int arr[n];
+    printf("enter %d elements\n");
+    for(int i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+    printf("\n");
+    for(int i=0;i<n;i++)
+    {
+        key = arr[i];
+        j=i-1;
+        while(j>=0 && arr[j] > key )
+        {
+            arr[j+1]=arr[j];
+            j=j-1;
+        }
+        arr[j+1]=key;
+    }
+    printf("INSERT SORT ARRAY : \n");
+    for(int i=0;i<n;i++)
+        printf("%d\t",arr[i]);
+    printf("\n");
+}
