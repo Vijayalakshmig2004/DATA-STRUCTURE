@@ -1,0 +1,208 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+struct Node* createNode(int value)
+ {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+struct Node* insert(struct Node* root, int value)
+{
+    if (root == NULL)
+    {
+        return createNode(value);
+    }
+
+    if (value < root->data)
+    {
+        root->left = insert(root->left, value);
+    }
+    else if (value > root->data)
+    {
+        root->right = insert(root->right, value);
+    }
+
+    return root;
+}
+struct Node* findMinNode(struct Node* node)
+{
+    struct Node* current = node;
+    while (current && current->left != NULL)
+    {
+        current = current->left;
+    }
+    return current;
+}
+
+
+
+
+struct Node* deleteNode(struct Node* root, int value)
+{
+    if (root == NULL)
+    {
+        return root;
+    }
+
+    if (value < root->data)
+    {
+        root->left = deleteNode(root->left, value);
+    }
+    else if (value > root->data)
+    {
+        root->right = deleteNode(root->right, value);
+    }
+    else
+    {
+        if (root->left == NULL)
+        {
+            struct Node* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL)
+        {
+            struct Node* temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        struct Node* temp = findMinNode(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
+
+
+
+void preorder(struct Node* root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    printf("%d ", root->data);
+    preorder(root->left);
+    preorder(root->right);
+}
+
+
+void postorder(struct Node* root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    postorder(root->left);
+    postorder(root->right);
+    printf("%d ", root->data);
+}
+
+
+
+void inorder(struct Node* root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+
+int getHeight(struct Node* root)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        int leftHeight = getHeight(root->left);
+        int rightHeight = getHeight(root->right);
+
+        if (leftHeight > rightHeight)
+        {
+            return leftHeight + 1;
+        }
+        else
+        {
+            return rightHeight + 1;
+        }
+    }
+}
+void printGivenLevel(struct Node* root, int level)
+{
+
+    if (root == NULL)
+    {
+        return;
+    }
+    if (level == 1)
+    {
+        printf("%d ", root->data);
+    }
+    else if (level > 1)
+    {
+        printGivenLevel(root->left, level - 1);
+        printGivenLevel(root->right, level - 1);
+    }
+}
+
+void level(struct Node* root)
+{
+    int height = getHeight(root);
+    for (int i = 1; i <= height; i++)
+    {
+        printGivenLevel(root, i);
+    }
+}
+int main()
+{
+    printf("INORDER PREORDER POSTORDER LEVEL\n");
+    printf("VIJAYALAKSHMI G,192321080\n");
+    printf("-----------------------------------------------------\n");
+    struct Node* root = NULL;
+    int values[] = {50, 30, 70, 20, 40, 60, 80};
+    for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++)
+    {
+        root = insert(root, values[i]);
+    }
+    printf("Inorder traversal of the BST before deletion: \n");
+    inorder(root);
+    printf("\n----------------------------------------------------\n");
+    int deleteValue = 30;
+    root = deleteNode(root, deleteValue);
+    printf("Inorder traversal of the BST after deletion of %d:\n", deleteValue);
+    inorder(root);
+    printf("\n------------------------------------------------------\n");
+    printf("Binary Tree elements using inorder traversal:\n");
+    inorder(root);
+    printf("\n");
+
+    printf("Binary Tree elements using preorder traversal:\n");
+    preorder(root);
+    printf("\n");
+
+    printf("Binary Tree elements using postorder traversal:\n");
+    postorder(root);
+    printf("\n");
+
+    printf("Binary Tree elements using levelorder traversal:\n");
+    level(root);
+    printf("\n");
+
+    return 0;
+}
