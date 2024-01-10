@@ -1,4 +1,3 @@
-//INSERT ELEMENT
 #include <stdio.h>
 void main()
 {
