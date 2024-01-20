@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#define V 5
+void dijkstra(int graph[V][V], int source);
+int main()
+ {
+    int graph[V][V] =
+    {
+        {0, 1, 0, 1, 0},
+        {0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 1},
+        {0, 0, 1, 0, 1},
+        {0, 0, 0, 0, 0}
+    };
+    int source;
+    printf("VIJAYALAKSHMI G,192321080\n");
+    printf("Enter the source vertex (0 to %d): ", V - 1);
+    scanf("%d", &source);
+    dijkstra(graph, source);
+    return 0;
+}
+int minDistance(int dist[], int sptSet[])
+{
+    int min = INT_MAX, min_index;
+    for (int v = 0; v < V; v++)
+    {
+        if (sptSet[v] == 0 && dist[v] <= min)
+        {
+            min = dist[v];
+            min_index = v;
+        }
+    }
+    return min_index;
+}
+void printMST(int parent[], int graph[V][V])
+{
+    printf("Edge   Weight\n");
+    for (int i = 1; i < V; i++)
+        printf("%d - %d    %d\n", parent[i], i, graph[i][parent[i]]);
+}
+void dijkstra(int graph[V][V], int source)
+{
+    int parent[V];
+    int dist[V];
+    int sptSet[V];
+    for (int i = 0; i < V; i++)
+    {
+        dist[i] = INT_MAX;
+        sptSet[i] = 0;
+    }
+    dist[source] = 0;
+    parent[source] = -1;
+    for (int count = 0; count < V - 1; count++)
+    {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = 1;
+        for (int v = 0; v < V; v++)
+        {
+            if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + 1 < dist[v])
+            {
+                parent[v] = u;
+                dist[v] = dist[u] + 1;
+            }
+        }
+    }
+    printMST(parent, graph);
+}
